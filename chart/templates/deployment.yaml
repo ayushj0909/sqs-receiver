@@ -1,21 +1,48 @@
+---
+  {{- with .Values.receiver}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}}
-  namespace: {{ .Release.Namespace}}
+  name: {{ $.Release.Name}}-receiver
+  namespace: {{ $.Release.Namespace}}
 spec:
-  replicas: {{ .Values.replicas}}
+  replicas: {{ .replicas }}
   selector:
     matchLabels:
-      app: {{ .Release.Name}}
+      app: {{ $.Release.Name}}-receiver
   template:
     metadata:
       labels:
-        app: {{ .Release.Name}}
+        app: {{ $.Release.Name}}-receiver
     spec:
       containers:
       - name: sqs-receiver
-        image: {{ .Values.image}}
+        image: {{ .image }}
         envFrom:
           - secretRef:
-              name: {{ .Release.Name}}-secret
+              name: {{ $.Release.Name}}-secret
+  {{- end}}
+---
+  {{ with .Values.sender }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Release.Name}}-sender
+  namespace: {{ $.Release.Namespace}}
+spec:
+  replicas: {{ .replicas}}
+  selector:
+    matchLabels:
+      app: {{ $.Release.Name}}-sender
+  template:
+    metadata:
+      labels:
+        app: {{ $.Release.Name}}-sender
+    spec:
+      containers:
+      - name: sqs-sender
+        image: {{ .image}}
+        envFrom:
+          - secretRef:
+              name: {{ $.Release.Name}}-secret
+  {{- end}}
