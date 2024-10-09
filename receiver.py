@@ -7,11 +7,15 @@ aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
 aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 sqs_queue_url = os.environ['SQS_QUEUE_URL']
 
-# Create an SQS client
+# Specify your AWS region
+region_name = 'ap-south-1'  # Change to your region
+
+# Create an SQS client with the specified region
 sqs_client = boto3.client(
     'sqs',
     aws_access_key_id=aws_access_key_id,
     aws_secret_access_key=aws_secret_access_key,
+    region_name=region_name,
 )
 
 while True:
