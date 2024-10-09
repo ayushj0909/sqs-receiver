@@ -3,19 +3,15 @@ import os
 import time
 import logging
 
-# Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
 
-# Get AWS credentials and SQS queue URL from environment variables
 aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
 aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 sqs_queue_url = os.environ['SQS_QUEUE_URL']
 
-# Specify your AWS region
-region_name = 'ap-south-1'  # Change to your region
+region_name = 'ap-south-1'
 
-# Create an SQS client with the specified region
 sqs_client = boto3.client(
     'sqs',
     aws_access_key_id=aws_access_key_id,
@@ -38,7 +34,6 @@ while True:
         for message in messages:
             logger.info(f"Received message: {message['Body']}")
 
-            # Delete the message after processing
             sqs_client.delete_message(
                 QueueUrl=sqs_queue_url,
                 ReceiptHandle=message['ReceiptHandle'],
