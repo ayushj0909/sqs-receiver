@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: sqs-receiver
-        image: {{ .image }}
+        image: {{ .imageRepoistory }}:{{.imageTag}}
         envFrom:
           - secretRef:
               name: {{ $.Release.Name}}-secret
@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
       - name: sqs-sender
-        image: {{ .image}}
+        image: {{ .imageRepoistory }}:{{.imageTag}}
         envFrom:
           - secretRef:
               name: {{ $.Release.Name}}-secret
