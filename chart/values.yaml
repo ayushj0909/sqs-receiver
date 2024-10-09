@@ -1,4 +1,5 @@
 image: ayushj0909/sqs-receiver:0.0.1
+replicas: 4
 awsKeyID:
 awsSecretKey:
 sqsQueueURL:
