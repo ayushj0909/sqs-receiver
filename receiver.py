@@ -1,6 +1,11 @@
 import boto3
 import os
 import time
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
 
 # Get AWS credentials and SQS queue URL from environment variables
 aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
@@ -19,20 +24,28 @@ sqs_client = boto3.client(
 )
 
 while True:
-    response = sqs_client.receive_message(
-        QueueUrl=sqs_queue_url,
-        MaxNumberOfMessages=10,
-        WaitTimeSeconds=10,
-    )
-
-    messages = response.get('Messages', [])
-    for message in messages:
-        print(f"Received message: {message['Body']}")
-
-        # Delete the message after processing
-        sqs_client.delete_message(
+    try:
+        response = sqs_client.receive_message(
             QueueUrl=sqs_queue_url,
-            ReceiptHandle=message['ReceiptHandle'],
+            MaxNumberOfMessages=10,
+            WaitTimeSeconds=10,
         )
+
+        messages = response.get('Messages', [])
+        if not messages:
+            logger.info("No messages to process.")
+
+        for message in messages:
+            logger.info(f"Received message: {message['Body']}")
+
+            # Delete the message after processing
+            sqs_client.delete_message(
+                QueueUrl=sqs_queue_url,
+                ReceiptHandle=message['ReceiptHandle'],
+            )
+            logger.info("Deleted message from queue.")
+
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
 
     time.sleep(5)
