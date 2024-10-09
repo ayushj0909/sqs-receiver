@@ -1,4 +1,4 @@
-image: ayushj0909/sqs-receiver:0.0.1
+image: ayushj0909/sqs-receiver:0.0.3
 replicas: 4
 keyID:
 secretKey:
