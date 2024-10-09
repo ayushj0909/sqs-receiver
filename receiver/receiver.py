@@ -9,7 +9,7 @@ logger = logging.getLogger()
 aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
 aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 sqs_queue_url = os.environ['SQS_QUEUE_URL']
-
+sleep_time = int(os.environ['SLEEP_TIME'])
 region_name = 'ap-south-1'
 
 sqs_client = boto3.client(
@@ -43,4 +43,4 @@ while True:
     except Exception as e:
         logger.error(f"An error occurred: {e}")
 
-    time.sleep(5)
+    time.sleep(sleep_time)
