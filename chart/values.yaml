@@ -1,5 +1,10 @@
-image: ayushj0909/sqs-receiver:0.0.3
-replicas: 4
 keyID:
 secretKey:
 queueURL:
+
+receiver:
+  image: ayushj0909/sqs-receiver:0.0.4
+  replicas: 4
+sender:
+  image: ayushj0909/sqs-sender:0.0.1
+  replicas: 1
