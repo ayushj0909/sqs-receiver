@@ -1,0 +1,15 @@
+apiVersion: v2
+name: sqs-receiver
+description: A Helm chart for deploying an SQS Message Receiver
+type: application
+version: 0.0.1
+appVersion: "0.0.1"
+keywords:
+  - aws
+  - sqs
+  - receiver
+maintainers:
+  - name: Ayush
+    email: ayush@amnic.com
+sources:
+  - https://github.com/ayushj0909/sqs-receiver

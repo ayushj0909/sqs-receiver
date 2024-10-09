@@ -1,0 +1,4 @@
+image: ayushj0909/sqs-receiver:0.0.1
+awsKeyID:
+awsSecretKey:
+sqsQueueURL:
