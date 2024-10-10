@@ -2,12 +2,12 @@ keyID:
 secretKey:
 queueURL:
 receiver:
-  imageRepoistory: ayushj0909/sqs-receiver
-  imageTag: 0.0.5
+  imageRepo: ayushj0909/sqs-receiver
+  imageTag:
   replicas: 4
   sleepTime: 5
 sender:
-  imageRepo: ayushj0909/sqs-sender:0.0.1
-  imageTag: 0.0.1
+  imageRepo: ayushj0909/sqs-sender
+  imageTag:
   replicas: 1
   sleepTime: 1
