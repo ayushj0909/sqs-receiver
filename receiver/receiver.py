@@ -29,6 +29,9 @@ while True:
             AttributeNames=['All'],  # Request all attributes
         )
 
+        # Log the full raw response
+        logger.info(f"Raw response: {json.dumps(response, indent=2)}")
+
         messages = response.get('Messages', [])
         if not messages:
             logger.info("No messages to process.")
