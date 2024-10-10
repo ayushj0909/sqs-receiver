@@ -24,6 +24,10 @@ spec:
         env:
           - name: SLEEP_TIME
             value: {{ .sleepTime | quote }}
+          - name: MAX_MESSAGES
+            value: {{ .maxMessages | quote}}
+          - name: WAIT_TIME
+            value: {{ .waitTime | quote}}
   {{- end}}
 ---
   {{ with .Values.sender }}

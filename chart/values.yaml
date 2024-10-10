@@ -6,6 +6,8 @@ receiver:
   imageTag:
   replicas: 4
   sleepTime: 5
+  waitTime: 10
+  maxMessages: 1
 sender:
   imageRepo: ayushj0909/sqs-sender
   imageTag:
