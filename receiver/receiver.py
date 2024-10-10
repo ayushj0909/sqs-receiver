@@ -12,7 +12,7 @@ aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 sqs_queue_url = os.environ['SQS_QUEUE_URL']
 sleep_time = int(os.environ['SLEEP_TIME'])
 max_messages=int(os.environ['MAX_MESSAGES'])
-wait_time=float(os.environ['WAIT_TIME'])
+wait_time=int(os.environ['WAIT_TIME'])
 region_name = 'ap-south-1'
 
 sqs_client = boto3.client(
