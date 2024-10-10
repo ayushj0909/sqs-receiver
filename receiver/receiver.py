@@ -11,6 +11,8 @@ aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
 aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
 sqs_queue_url = os.environ['SQS_QUEUE_URL']
 sleep_time = int(os.environ['SLEEP_TIME'])
+max_messages=int(os.environ['MAX_MESSAGES'])
+wait_time=float(os.environ['WAIT_TIME'])
 region_name = 'ap-south-1'
 
 sqs_client = boto3.client(
@@ -24,8 +26,8 @@ while True:
     try:
         response = sqs_client.receive_message(
             QueueUrl=sqs_queue_url,
-            MaxNumberOfMessages=10,
-            WaitTimeSeconds=10,
+            MaxNumberOfMessages=max_messages,
+            WaitTimeSeconds=wait_time,
             AttributeNames=['All'],  # Request all attributes
         )
 
