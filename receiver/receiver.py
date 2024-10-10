@@ -2,6 +2,7 @@ import boto3
 import os
 import time
 import logging
+import json
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
@@ -30,10 +31,27 @@ while True:
         messages = response.get('Messages', [])
         if not messages:
             logger.info("No messages to process.")
+            continue  # Skip the rest of the loop if there are no messages
 
         for message in messages:
-            logger.info(f"Received message: {message['Body']}")
+            # Parse the message body as JSON
+            try:
+                message_body = json.loads(message['Body'])
+                logger.info(f"Received message: {message_body}")
 
+                # Process your message as needed
+                # Example: accessing specific fields
+                account_id = message_body.get('account_id')
+                trigger_id = message_body.get('trigger_id')
+                org_name = message_body.get('org_name')
+
+                logger.info(f"Account ID: {account_id}, Trigger ID: {trigger_id}, Org Name: {org_name}")
+
+            except json.JSONDecodeError:
+                logger.error("Failed to decode JSON from message body.")
+                continue
+
+            # Delete the message from the queue after processing
             sqs_client.delete_message(
                 QueueUrl=sqs_queue_url,
                 ReceiptHandle=message['ReceiptHandle'],
