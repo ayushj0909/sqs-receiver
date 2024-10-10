@@ -2,6 +2,7 @@ import boto3
 import os
 import time
 import logging
+import json
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
@@ -19,11 +20,20 @@ sqs_client = boto3.client(
     region_name=region_name,
 )
 
-message_counter = 1
+# Initial trigger_id digit
+trigger_id_digit = 0  # Start from 0
 
 while True:
     try:
-        message_body = f"Hello world #{message_counter}"
+        # Create the JSON payload
+        payload = {
+            "account_id": "dummy_id",
+            "trigger_id": f"{trigger_id_digit}b93c629-c6ba-4392-a8f9-04e602432cbd",  # Incrementing the first digit
+            "org_name": "amnic"
+        }
+
+        # Convert the payload to JSON string
+        message_body = json.dumps(payload)
 
         response = sqs_client.send_message(
             QueueUrl=sqs_queue_url,
@@ -32,7 +42,8 @@ while True:
 
         logger.info(f"Sent message: {message_body} (Message ID: {response['MessageId']})")
 
-        message_counter += 1
+        # Increment the first digit of the trigger_id
+        trigger_id_digit += 1
 
     except Exception as e:
         logger.error(f"An error occurred while sending message: {e}")
