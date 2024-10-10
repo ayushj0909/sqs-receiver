@@ -26,6 +26,7 @@ while True:
             QueueUrl=sqs_queue_url,
             MaxNumberOfMessages=10,
             WaitTimeSeconds=10,
+            AttributeNames=['All'],  # Request all attributes
         )
 
         messages = response.get('Messages', [])
@@ -39,8 +40,14 @@ while True:
                 message_body = json.loads(message['Body'])
                 logger.info(f"Received message: {message_body}")
 
+                # Access additional details
+                message_id = message['MessageId']
+                md5_of_body = message['MD5OfBody']
+                receipt_handle = message['ReceiptHandle']
+
+                logger.info(f"Message ID: {message_id}, MD5 of Body: {md5_of_body}")
+
                 # Process your message as needed
-                # Example: accessing specific fields
                 account_id = message_body.get('account_id')
                 trigger_id = message_body.get('trigger_id')
                 org_name = message_body.get('org_name')
@@ -54,7 +61,7 @@ while True:
             # Delete the message from the queue after processing
             sqs_client.delete_message(
                 QueueUrl=sqs_queue_url,
-                ReceiptHandle=message['ReceiptHandle'],
+                ReceiptHandle=receipt_handle,
             )
             logger.info("Deleted message from queue.")
 
