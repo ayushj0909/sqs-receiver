@@ -28,7 +28,7 @@ while True:
         # Create the JSON payload
         payload = {
             "account_id": "dummy_id",
-            "trigger_id": f"{trigger_id_digit}b93c629-c6ba-4392-a8f9-04e602432cbd",  # Incrementing the first digit
+            "trigger_id": f"{trigger_id_digit}c93c629-c6ba-4392-a8f9-04e602432cbd",  # Incrementing the first digit
             "org_name": "amnic"
         }
 
